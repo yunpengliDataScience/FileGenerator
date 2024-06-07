@@ -1,0 +1,12 @@
+<NewDataSet>
+    <LIBRARY>
+        <ID>1</ID>
+        <NAME>Central Library</NAME>
+        <LOCATION>Main Street</LOCATION>
+    </LIBRARY>
+    <LIBRARY>
+        <ID>2</ID>
+        <NAME>City Library</NAME>
+        <LOCATION>Center Square</LOCATION>
+    </LIBRARY>
+</NewDataSet>

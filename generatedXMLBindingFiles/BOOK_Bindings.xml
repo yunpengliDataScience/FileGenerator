@@ -1,0 +1,14 @@
+<jxb:bindings xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jxb="http://java.sun.com/xml/ns/jaxb" version="2.1">
+	
+	<jxb:globalBindings underscoreBinding="asCharInWord" enableJavaNamingConventions = "true"/>
+	
+	<jxb:bindings schemaLocation="file:///C:\Projects\FileGenerator\generatedXSDFiles\BOOK0.xsd">
+            <jxb:bindings node="//xs:complexType[@name='NewDataSetType']">
+                <jxb:class name="NewDataSet"/>
+            </jxb:bindings>
+			<jxb:bindings node="//xs:complexType[@name='BOOKType']">
+                <jxb:class name="BOOK"/>
+            </jxb:bindings>
+    </jxb:bindings>
+
+</jxb:bindings>

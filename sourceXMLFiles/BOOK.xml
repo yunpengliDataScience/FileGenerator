@@ -1,0 +1,34 @@
+<NewDataSet>
+    <BOOK>
+        <ID>1</ID>
+        <TITLE>The Great Gatsby</TITLE>
+        <AUTHOR>F. Scott Fitzgerald</AUTHOR>
+        <GENRE>Classic</GENRE>
+        <LIBRARY_ID>1</LIBRARY_ID>
+    </BOOK>
+    
+    <BOOK>
+        <ID>2</ID>
+        <TITLE>To Kill a Mockingbird</TITLE>
+        <AUTHOR>Harper Lee</AUTHOR>
+        <GENRE>Fiction</GENRE>
+        <LIBRARY_ID>2</LIBRARY_ID>
+    </BOOK>
+    
+    <BOOK>
+        <ID>3</ID>
+        <TITLE>1984</TITLE>
+        <AUTHOR>George Orwell</AUTHOR>
+        <GENRE>Dystopian</GENRE>
+        <LIBRARY_ID>1</LIBRARY_ID>
+    </BOOK>
+    
+    <BOOK>
+        <ID>4</ID>
+        <TITLE>Pride and Prejudice</TITLE>
+        <AUTHOR>Jane Austen</AUTHOR>
+        <GENRE>Romance</GENRE>
+        <LIBRARY_ID>2</LIBRARY_ID>
+    </BOOK>
+    
+</NewDataSet>

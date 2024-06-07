@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="NewDataSet" type="NewDataSetType"/>
+  <xs:complexType name="LIBRARYType">
+    <xs:sequence>
+      <xs:element name="ID">
+        <xs:simpleType>
+          <xs:restriction base="xs:byte">
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="2"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="NAME">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Central Library"/>
+            <xs:enumeration value="City Library"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="LOCATION">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Main Street"/>
+            <xs:enumeration value="Center Square"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NewDataSetType">
+    <xs:sequence>
+      <xs:element type="LIBRARYType" name="LIBRARY" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

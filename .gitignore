@@ -1,0 +1,12 @@
+
+target/*
+
+*.db
+
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+*settings
+.project
+.classpath
+*.log

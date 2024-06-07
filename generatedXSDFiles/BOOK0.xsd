@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="NewDataSet" type="NewDataSetType"/>
+  <xs:complexType name="BOOKType">
+    <xs:sequence>
+      <xs:element name="ID">
+        <xs:simpleType>
+          <xs:restriction base="xs:byte">
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="3"/>
+            <xs:enumeration value="4"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="TITLE">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="The Great Gatsby"/>
+            <xs:enumeration value="To Kill a Mockingbird"/>
+            <xs:enumeration value="1984"/>
+            <xs:enumeration value="Pride and Prejudice"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="AUTHOR">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="F. Scott Fitzgerald"/>
+            <xs:enumeration value="Harper Lee"/>
+            <xs:enumeration value="George Orwell"/>
+            <xs:enumeration value="Jane Austen"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="GENRE">
+        <xs:simpleType>
+          <xs:restriction base="xs:string">
+            <xs:enumeration value="Classic"/>
+            <xs:enumeration value="Fiction"/>
+            <xs:enumeration value="Dystopian"/>
+            <xs:enumeration value="Romance"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+      <xs:element name="LIBRARY_ID">
+        <xs:simpleType>
+          <xs:restriction base="xs:byte">
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="2"/>
+          </xs:restriction>
+        </xs:simpleType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="NewDataSetType">
+    <xs:sequence>
+      <xs:element type="BOOKType" name="BOOK" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
