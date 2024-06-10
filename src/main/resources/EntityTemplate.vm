@@ -1,0 +1,38 @@
+package ${packageName};
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+@XmlRootElement(name = "${tableName}")
+@Entity
+@Table(name = "${tableName}")
+public class ${className} {
+
+#foreach ($column in $columns)
+
+	#if ($column.primaryKey == true)
+	@Id
+	private ${column.javaType} ${column.fieldName};
+	#else
+	@Column(name = "${column.fieldName}")
+    private ${column.javaType} ${column.fieldName};
+	#end
+#end
+
+#foreach ($column in $columns)
+
+	@XmlElement(name="${column.tableColumnName}")
+    public ${column.javaType} get${column.methodName}() {
+        return ${column.fieldName};
+    }
+
+    public void set${column.methodName}(${column.javaType} ${column.fieldName}) {
+        this.${column.fieldName} = ${column.fieldName};
+    }
+#end
+}

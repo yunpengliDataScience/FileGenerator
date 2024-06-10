@@ -68,7 +68,8 @@ public class FileGenerator {
 		String xmlJavaBeanDirectoryPath = workingDirectory + File.separator + "generatedXMLJavabeans";
 		createFolderIfNotExist(xmlJavaBeanDirectoryPath);
 		
-
+		String generatedJPAEntityDirectoryPath = workingDirectory + File.separator + "generatedJPAEntityFiles";
+		createFolderIfNotExist(generatedJPAEntityDirectoryPath);
 	}
 	
 	private static void generateJPARepositoryJavaFile(String entityName) throws IOException {
