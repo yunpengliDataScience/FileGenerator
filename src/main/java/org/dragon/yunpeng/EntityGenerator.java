@@ -60,13 +60,34 @@ public class EntityGenerator {
         }
         return false;
     }
+    
+	public static String convertToJavaName(String name) {
+		StringBuilder stringBuilder = new StringBuilder("");
+
+		String[] chunks = name.split("_");
+
+		for (String chunck : chunks) {
+			String formattedChunck = chunck.substring(0, 1).toUpperCase() + chunck.substring(1).toLowerCase();
+
+			stringBuilder.append(formattedChunck);
+		}
+
+		return stringBuilder.toString();
+	}
+	
+	 public static void main2(String[] args) {
+		 String str = convertToJavaName("XA_YB_ZC");
+		 
+		 System.out.println(str);
+	 }
 
     public static void main(String[] args) {
         // Database connection details
     	String jdbcUrl = "jdbc:h2:file:./HR_Database;MODE=Oracle"; // Adjust the URL as per your setup
         String username = "sa";
         String password = "sa";
-        String tableName = "COUNTRIES"; // Replace with your table name
+        String tableName = "JOB_HISTORY";
+        //String tableName = "COUNTRIES"; // Replace with your table name
         String packageName = "com.example"; // Replace with your package name
         
         //String jdbcUrl = "jdbc:oracle:thin:@localhost:1521:xe"; // Adjust the URL as per your setup
@@ -95,8 +116,11 @@ public class EntityGenerator {
                 String columnName = resultSet.getString("COLUMN_NAME");
                 String columnType = resultSet.getString("TYPE_NAME");
                 String javaType = getJavaType(columnType);
-                String fieldName = columnName; //TODO
-                String methodName = columnName; //TODO
+                
+                String fieldName = convertToJavaName(columnName);
+                fieldName = fieldName.substring(0, 1).toLowerCase() + fieldName.substring(1);
+                
+                String methodName = convertToJavaName(columnName);
 
                 Column column = new Column(fieldName, methodName, javaType, columnName);
                 
@@ -131,7 +155,7 @@ public class EntityGenerator {
             //template.merge(context, writer);
 
             // Write to file
-            String className = tableName;
+            String className = convertToJavaName(tableName);
             
             String workingDirectory = System.getProperty("user.dir");
     		System.out.println(workingDirectory);

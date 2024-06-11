@@ -17,9 +17,10 @@ public class ${className} {
 
 	#if ($column.primaryKey == true)
 	@Id
+	@Column(name = "${column.tableColumnName}")
 	private ${column.javaType} ${column.fieldName};
 	#else
-	@Column(name = "${column.fieldName}")
+	@Column(name = "${column.tableColumnName}")
     private ${column.javaType} ${column.fieldName};
 	#end
 #end
