@@ -9,3 +9,6 @@ Create Java Entity Classes from XML files to be used as XML unmarshalling beans 
 3. Run batchGenerateXMLJavaBeans.bat to generate Java Beans.
 4. In the generated java class, remove content of @XmlType and add @XmlRootElement(name="ENTITY_NAME").
 5. In the generated java class, add @Entity in class level and add @Id to id field.
+
+-----------------------------------------------------------------------------------------------------
+Run EntityGenerator.java to generate Entity classes that map both XML and database tables.
