@@ -10,10 +10,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -39,13 +36,26 @@ public class EntityGenerator {
             case "FLOAT":
                 return "float";
             case "DATE":
-                return "java.sql.Date";
+                return "java.util.Date";
             case "TIMESTAMP":
-                return "java.sql.Timestamp";
+            case "TIMESTAMP(6)":
+                return "TimeStamp";
             // Add more mappings as needed
             default:
                 return "Object";
         }
+    }
+    
+    private static String convertPrimitiveToClass(String primitiveType) {
+    	switch(primitiveType) {
+    	case "long":
+    		return "Long";
+    	case "int":
+    		return "Integer";
+    	default:
+            return "Long";
+    	}
+		
     }
     
     public static boolean isColumnPrimaryKey(Connection conn, String tableName, String columnName) throws SQLException {
@@ -96,6 +106,7 @@ public class EntityGenerator {
         //String tableName = "COUNTRIES"; // Replace with your table name
         //String packageName = "com.example"; // Replace with your package name
 
+		String primaryKeyType = "Long";
 
         try {
             // Load the H2 driver
@@ -108,7 +119,25 @@ public class EntityGenerator {
 
             // Retrieve metadata
             DatabaseMetaData databaseMetaData = connection.getMetaData();
+            
             ResultSet resultSet = databaseMetaData.getColumns(null, null, tableName, null);
+
+			/*
+			ResultSet schemaResultSet = databaseMetaData.getSchemas();
+            while (schemaResultSet.next()) {
+            	System.out.println(schemaResultSet.getString("TABLE_SCHEM"));
+            }
+            
+            ResultSet tables = databaseMetaData.getTables(null, "MA3", "%", new String[] {"TABLE"});
+            while(tables.next()) {
+            	System.out.println(tables.getString("TABLE_NAME"));
+            }
+            
+            //--------------------------------------------------------------------------------------
+            
+            
+            ResultSet resultSet = databaseMetaData.getColumns(null, "MA3", tableName, null);
+			*/
 
             // Collect column information
             List<Column> columns = new ArrayList<>();
@@ -130,6 +159,8 @@ public class EntityGenerator {
                 
                 if(isPrimaryKey) {
                 	column.setPrimaryKey(isPrimaryKey);
+                	
+                	primaryKeyType = convertPrimitiveToClass(javaType);
                 }
                 
                 columns.add(column);
@@ -137,12 +168,14 @@ public class EntityGenerator {
 
             // Initialize Velocity
             Velocity.init();
+            
+            String className = convertToJavaName(tableName);
 
             // Prepare context
             VelocityContext context = new VelocityContext();
             context.put("packageName", packageName);
             context.put("tableName", tableName);
-            context.put("className", tableName.substring(0, 1).toUpperCase() + tableName.substring(1).toLowerCase());
+            context.put("className", className);
             context.put("columns", columns);
 
             // Load template
@@ -155,8 +188,6 @@ public class EntityGenerator {
             //template.merge(context, writer);
 
             // Write to file
-            String className = convertToJavaName(tableName);
-            
             String workingDirectory = System.getProperty("user.dir");
     		System.out.println(workingDirectory);
     		String fileDirectory = workingDirectory + File.separator + "generatedJPAEntityFiles" + File.separator;
@@ -169,9 +200,49 @@ public class EntityGenerator {
 
             System.out.println("Java entity class generated successfully!");
 
+            
+            //------------------------------------------------------------------------------------------------------
+            // Prepare context
+            VelocityContext repositoryContext = new VelocityContext();
+            repositoryContext.put("entityPackageName", packageName);
+            repositoryContext.put("repositoryPackageName", "navy.ssp.ma.tfrUtility.dataImport.repositories");
+            repositoryContext.put("entityClassName", className);
+            repositoryContext.put("primaryKeyType", primaryKeyType);
+
+            // Load template
+            //Template repositoryTemplate = Velocity.getTemplate("src/main/resources/RepositoryTemplate.vm");
+
+            // Merge template
+            StringWriter writer2 = new StringWriter();
+            
+            Velocity.mergeTemplate("src/main/resources/RepositoryTemplate.vm", null, repositoryContext, writer2);
+            //template.merge(context, writer);
+
+            // Write to file
+            String workingDirectory2 = System.getProperty("user.dir");
+    		System.out.println(workingDirectory2);
+    		String respositoryFileDirectory = workingDirectory2 + File.separator + "generatedJPARepositoryFiles" + File.separator;
+    		
+            // Write class content to a file
+            try (FileWriter fileWriter = new FileWriter(respositoryFileDirectory + className + "Repository.java")) {
+                fileWriter.write(writer2.toString());
+            }
+           
+
+            System.out.println("Java Repository class generated successfully!");
+            
+            
+            
+            
+            //------------------------------------------------------------------------------------------------------
+            
+            
             // Close resources
             resultSet.close();
             connection.close();
+            
+            
+            
         } catch (ClassNotFoundException | SQLException | IOException e) {
             e.printStackTrace();
         }

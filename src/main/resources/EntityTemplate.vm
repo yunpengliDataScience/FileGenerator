@@ -4,30 +4,69 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlSchemaType;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "${tableName}")
 @Entity
 @Table(name = "${tableName}")
-public class ${className} {
+public class ${className} implements java.io.Serializable {
 
+## Fields
 #foreach ($column in $columns)
-
-	#if ($column.primaryKey == true)
+## ID field
+	#if($column.primaryKey == true)
 	@Id
 	@Column(name = "${column.tableColumnName}")
+	@XmlElement(name="${column.tableColumnName}")
 	private ${column.javaType} ${column.fieldName};
+
+## Date field
+	#elseif($column.javaType == "java.util.Date")
+	@Temporal(TemporalType.DATE)
+	@Column(name = "${column.tableColumnName}")
+	@XmlElement(name="${column.tableColumnName}")
+	@XmlSchemaType(name="date")
+	private ${column.javaType} ${column.fieldName};
+
+## Timestamp field
+	#elseif($column.javaType == "TimeStamp")
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "${column.tableColumnName}")
+	@XmlElement(name="${column.tableColumnName}")
+	@XmlSchemaType(name="date")
+	private java.util.Date ${column.fieldName};
+
+## Other regular field
 	#else
 	@Column(name = "${column.tableColumnName}")
+	@XmlElement(name="${column.tableColumnName}")
     private ${column.javaType} ${column.fieldName};
+
 	#end
 #end
 
+## Getter and Setter
 #foreach ($column in $columns)
+## Timestamp field
+	#if($column.javaType == "TimeStamp")
+	public java.util.Date get${column.methodName}() {
+        return ${column.fieldName};
+    }
 
-	@XmlElement(name="${column.tableColumnName}")
+    public void set${column.methodName}(java.util.Date ${column.fieldName}) {
+        this.${column.fieldName} = ${column.fieldName};
+    }
+
+## Regular field
+	#else
     public ${column.javaType} get${column.methodName}() {
         return ${column.fieldName};
     }
@@ -35,5 +74,7 @@ public class ${className} {
     public void set${column.methodName}(${column.javaType} ${column.fieldName}) {
         this.${column.fieldName} = ${column.fieldName};
     }
+
+	#end
 #end
 }

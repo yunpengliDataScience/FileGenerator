@@ -1,0 +1,10 @@
+package ${repositoryPackageName};
+
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+import ${entityPackageName}.${entityClassName};
+
+@Repository
+public interface ${entityClassName}Repository extends CrudRepository<${entityClassName}, ${primaryKeyType}>{
+
+}

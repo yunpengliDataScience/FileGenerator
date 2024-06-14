@@ -20,5 +20,12 @@
 	        <version>1.4.200</version>
 	    </dependency>
 	    
+	    <!-- Oracle Database -->
+	    <dependency>
+	        <groupId>com.oracle.database.jdbc</groupId>
+	        <artifactId>ojdbc6</artifactId>
+	        <version>11.2.0.4</version>
+	    </dependency>
+	    
 	</dependencies>
 </project>

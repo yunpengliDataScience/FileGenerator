@@ -4,35 +4,46 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlSchemaType;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "JOB_HISTORY")
 @Entity
 @Table(name = "JOB_HISTORY")
-public class Job_history {
-
+public class JobHistory implements java.io.Serializable {
 
 	@Id
 	@Column(name = "EMPLOYEE_ID")
+	@XmlElement(name="EMPLOYEE_ID")
 	private Object employeeId;
 
 	@Id
 	@Column(name = "START_DATE")
-	private java.sql.Timestamp startDate;
+	@XmlElement(name="START_DATE")
+	private TimeStamp startDate;
 
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "END_DATE")
-    private java.sql.Timestamp endDate;
+	@XmlElement(name="END_DATE")
+	@XmlSchemaType(name="date")
+	private java.util.Date endDate;
 
 	@Column(name = "JOB_ID")
+	@XmlElement(name="JOB_ID")
     private String jobId;
 
 	@Column(name = "DEPARTMENT_ID")
+	@XmlElement(name="DEPARTMENT_ID")
     private Object departmentId;
 
 
-	@XmlElement(name="EMPLOYEE_ID")
     public Object getEmployeeId() {
         return employeeId;
     }
@@ -41,25 +52,22 @@ public class Job_history {
         this.employeeId = employeeId;
     }
 
-	@XmlElement(name="START_DATE")
-    public java.sql.Timestamp getStartDate() {
+	public java.util.Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(java.sql.Timestamp startDate) {
+    public void setStartDate(java.util.Date startDate) {
         this.startDate = startDate;
     }
 
-	@XmlElement(name="END_DATE")
-    public java.sql.Timestamp getEndDate() {
+	public java.util.Date getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(java.sql.Timestamp endDate) {
+    public void setEndDate(java.util.Date endDate) {
         this.endDate = endDate;
     }
 
-	@XmlElement(name="JOB_ID")
     public String getJobId() {
         return jobId;
     }
@@ -68,7 +76,6 @@ public class Job_history {
         this.jobId = jobId;
     }
 
-	@XmlElement(name="DEPARTMENT_ID")
     public Object getDepartmentId() {
         return departmentId;
     }
@@ -76,4 +83,5 @@ public class Job_history {
     public void setDepartmentId(Object departmentId) {
         this.departmentId = departmentId;
     }
+
 }
